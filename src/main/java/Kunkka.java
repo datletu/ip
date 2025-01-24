@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import components.Task;
+import components.*;
 
 public class Kunkka {
     public static void main(String[] args) {
@@ -15,48 +15,77 @@ public class Kunkka {
                     + "|/     \\|(______/ |/     \\|\\_______/|/   \\__/|/     \\|(_______/  |_/    \\/(_______)|/    )_)|_/    \\/|_/    \\/|/     \\|\n";
         System.out.println(logo);
         String horizontalLine = "____________________________________________________________";
-        String name = "Kunkka";
-        String greeting = "Ahoy! I'm " + name + "\n" + "What can I do for you?";
+        String botName = "Kunkka";
+        String greeting = "Ahoy! I'm " + botName + "\n" + "What can I do for you?";
         String farewell = "Farewell, matey! May the wind be at your back!";
         System.out.println(horizontalLine + "\n" + greeting + "\n" + horizontalLine + "\n");
 
-        String input = new Scanner(System.in).nextLine();
-        Task task = new Task(input);
+        String command = new Scanner(System.in).nextLine();
         List<Task> tasks = new ArrayList<Task>();
 
-        while (!task.getName().equals("bye")) {
+        //Processing commands
+        while (!command.equals("bye")) {
             System.out.println(horizontalLine + "\n");
 
             //Handle list command
-            if (task.getName().equals("list")) {
+            if (command.equals("list")) {
                 printTasks(tasks);
             } 
 
             //Handle mark command
-            else if (task.getName().matches("mark \\d+")) {
-                int index = Integer.parseInt(input.split(" ")[1]);
+            else if (command.matches("mark \\d+")) {
+                int index = Integer.parseInt(command.split(" ")[1]);
                 tasks.get(index - 1).markAsDone();
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println("  " + tasks.get(index - 1));
             }
 
             //Handle unmark command
-            else if (task.getName().matches("unmark \\d+")) {
-                int index = Integer.parseInt(input.split(" ")[1]);
+            else if (command.matches("unmark \\d+")) {
+                int index = Integer.parseInt(command.split(" ")[1]);
                 tasks.get(index - 1).unmarkAsDone();
                 System.out.println("Nice! I've unmarked this task:");
                 System.out.println("  " + tasks.get(index - 1));
             }
 
+            //Handle todo command
+            else if (command.matches("todo .+")) {
+                Task task = new Todo(command.split(" ", 2)[1]);
+                tasks.add(task);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + task);
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            }
+
+            //Handle deadline command
+            else if (command.matches("deadline .+ /by .+")) {
+                String[] parts = command.split(" /by ");
+                Task task = new Deadline(parts[0].split(" ", 2)[1], parts[1]);
+                tasks.add(task);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + task);
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            }
+
+            //Handle event command
+            else if (command.matches("event .+ /from .+ /to .+")) {
+                String name = command.split(" /from ")[0].split(" ", 2)[1];
+                String from = command.split(" /from ")[1].split(" /to ")[0];
+                String to = command.split(" /to ")[1];
+                Task task = new Event(name, from, to);
+                tasks.add(task);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + task);
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            }
+
             //Handle adding tasks
             else {
-                tasks.add(task);
-                System.out.println("added: " + task);
+                System.out.println("Error: Invalid command");
             }
 
             System.out.println(horizontalLine + "\n");
-            input = new Scanner(System.in).nextLine();
-            task = new Task(input);
+            command = new Scanner(System.in).nextLine();
         }
 
         //Handle bye command

@@ -2,14 +2,20 @@ package components;
 public class Task {
     protected String name;
     protected boolean isDone;
+    protected String type;
 
-    public Task(String name) {
+    public Task(String name, String type) {
         this.name = name;
+        this.type = type;
         this.isDone = false;
     }
 
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void markAsDone() {
@@ -26,6 +32,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + name;
+        return "[" + type + "]" + "[" + getStatusIcon() + "] " + name;
     }
 }
