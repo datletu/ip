@@ -21,7 +21,7 @@ public class Kunkka {
         System.out.println(horizontalLine + "\n" + greeting + "\n" + horizontalLine + "\n");
 
         Scanner sc = new Scanner(System.in);
-        String command = sc.nextLine().trim();
+        String command = sc.nextLine();
         List<Task> tasks = new ArrayList<Task>();
 
         //Processing commands
@@ -34,59 +34,132 @@ public class Kunkka {
             } 
 
             //Handle mark command
-            else if (command.matches("mark \\d+")) {
-                int index = Integer.parseInt(command.split(" ")[1]);
-                tasks.get(index - 1).markAsDone();
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println("  " + tasks.get(index - 1));
+            else if (command.matches("mark -?\\d+")) {
+                try {
+                    int index = Integer.parseInt(command.split(" ")[1]);
+                    if (index > tasks.size()) {
+                        throw new KunkkaException("Error: Invalid task number (Out of range)");
+                    }
+                    else if (index <= 0) {
+                        throw new KunkkaException("Error: Invalid task number (Zero or negative)");
+                    }
+                    else {
+                        tasks.get(index - 1).markAsDone();
+                        System.out.println("Nice! I've marked this task as done:");
+                        System.out.println("  " + tasks.get(index - 1));
+                    }
+
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+
+                }
+                
             }
 
             //Handle unmark command
             else if (command.matches("unmark \\d+")) {
                 int index = Integer.parseInt(command.split(" ")[1]);
-                tasks.get(index - 1).unmarkAsDone();
-                System.out.println("Nice! I've unmarked this task:");
-                System.out.println("  " + tasks.get(index - 1));
+                try {
+                    if (index > tasks.size()) {
+                        throw new KunkkaException("Error: Invalid task number (Out of range)");
+                    }
+                    else if (index <= 0) {
+                        throw new KunkkaException("Error: Invalid task number (Negative)");
+                    }
+                    else {
+                        tasks.get(index - 1).unmarkAsDone();
+                        System.out.println("Nice! I've unmarked this task:");
+                        System.out.println("  " + tasks.get(index - 1));
+                    }
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
 
             //Handle todo command
-            else if (command.matches("todo .+")) {
+            else if (command.matches("todo .*")) {
                 Task task = new Todo(command.split(" ", 2)[1]);
-                tasks.add(task);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + task);
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                try {
+                    if (task.getName().trim().equals("")) {
+                        throw new KunkkaException("Error: Task name cannot be empty");
+                    }
+                    else {
+                        tasks.add(task);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + task);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    }
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
 
             //Handle deadline command
-            else if (command.matches("deadline .+ /by .+")) {
-                String[] parts = command.split(" /by ");
-                Task task = new Deadline(parts[0].split(" ", 2)[1], parts[1]);
-                tasks.add(task);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + task);
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            else if (command.matches("deadline .* /by .*")) {
+                String[] parts = command.split("/by");
+                Task task = new Deadline(parts[0].split(" ", 2)[1].trim(), parts[1].trim());
+                try {
+                    if (task.getName().equals("")) {
+                        throw new KunkkaException("Error: Task name cannot be empty");
+                    }
+                    else if (parts[1].trim().equals("")) {
+                        throw new KunkkaException("Error: Deadline cannot be empty");
+                    }
+                    else {
+                        tasks.add(task);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + task);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    }
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
 
             //Handle event command
-            else if (command.matches("event .+ /from .+ /to .+")) {
-                String name = command.split(" /from ")[0].split(" ", 2)[1];
-                String from = command.split(" /from ")[1].split(" /to ")[0];
-                String to = command.split(" /to ")[1];
-                Task task = new Event(name, from, to);
-                tasks.add(task);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + task);
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+            else if (command.matches("event .* /from.*/to.*")) {
+                String name = command.split("/from")[0].split(" ", 2)[1].trim();
+                String from = command.split("/from")[1].split("/to")[0].trim();
+                String to = command.split("/to")[1].trim();
+                try {
+                    if (name.trim().equals("")) {
+                        throw new KunkkaException("Error: Task name cannot be empty");
+                    }
+                    else if (from.trim().equals("")) {
+                        throw new KunkkaException("Error: Event start time cannot be empty");
+                    }
+                    else if (to.trim().equals("")) {
+                        throw new KunkkaException("Error: Event end time cannot be empty");
+                    }
+                    else {
+                        Task task = new Event(name, from, to);
+                        tasks.add(task);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println("  " + task);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    }
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
 
-            //Handle adding tasks
+            //Handle invalid command
             else {
-                System.out.println("Error: Invalid command");
+                try {
+                    throw new KunkkaException("Error: Invalid command");
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
 
             System.out.println(horizontalLine + "\n");
-            command = sc.nextLine().trim();
+            command = sc.nextLine();
         }
 
         //Handle bye command
