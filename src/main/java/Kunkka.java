@@ -148,6 +148,28 @@ public class Kunkka {
                 }
             }
 
+            //Handle delete command
+            else if (command.matches("delete -?\\d+")) {
+                int index = Integer.parseInt(command.split(" ")[1]);
+                try {
+                    if (index > tasks.size()) {
+                        throw new KunkkaException("Error: Invalid task number (Out of range)");
+                    }
+                    else if (index <= 0) {
+                        throw new KunkkaException("Error: Invalid task number (Zero or Negative)");
+                    }
+                    else {
+                        Task task = tasks.remove(index - 1);
+                        System.out.println("Noted. I've removed this task:");
+                        System.out.println("  " + task);
+                        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    }
+                }
+                catch (KunkkaException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
             //Handle invalid command
             else {
                 try {
