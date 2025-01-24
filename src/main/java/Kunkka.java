@@ -20,7 +20,8 @@ public class Kunkka {
         String farewell = "Farewell, matey! May the wind be at your back!";
         System.out.println(horizontalLine + "\n" + greeting + "\n" + horizontalLine + "\n");
 
-        String command = new Scanner(System.in).nextLine();
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine().trim();
         List<Task> tasks = new ArrayList<Task>();
 
         //Processing commands
@@ -85,7 +86,7 @@ public class Kunkka {
             }
 
             System.out.println(horizontalLine + "\n");
-            command = new Scanner(System.in).nextLine();
+            command = sc.nextLine().trim();
         }
 
         //Handle bye command
