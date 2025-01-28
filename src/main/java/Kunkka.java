@@ -2,6 +2,10 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 import components.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Kunkka {
     public static void main(String[] args) {
@@ -22,7 +26,26 @@ public class Kunkka {
 
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
+
+        //Load tasks from file
         List<Task> tasks = new ArrayList<Task>();
+        try {
+            File file = new File("../../../data/kunkka.txt");
+            Scanner fileScanner = new Scanner(file);
+            while (fileScanner.hasNextLine()) {
+                String taskLine = fileScanner.nextLine();
+                tasks.add(parseTask(taskLine));
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            try {
+                File file = new File("../../../data/kunkka.txt");
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            } catch (IOException ioException) {
+                System.out.println("An error occurred while creating the file.");
+            }
+        }
 
         //Processing commands
         while (!command.equals("bye")) {
@@ -45,6 +68,7 @@ public class Kunkka {
                     }
                     else {
                         tasks.get(index - 1).markAsDone();
+                        
                         System.out.println("Nice! I've marked this task as done:");
                         System.out.println("  " + tasks.get(index - 1));
                     }
@@ -80,7 +104,7 @@ public class Kunkka {
 
             //Handle todo command
             else if (command.matches("todo .*")) {
-                Task task = new Todo(command.split(" ", 2)[1]);
+                Todo task = new Todo(command.split(" ", 2)[1], false);
                 try {
                     if (task.getName().trim().equals("")) {
                         throw new KunkkaException("Error: Task name cannot be empty");
@@ -100,7 +124,7 @@ public class Kunkka {
             //Handle deadline command
             else if (command.matches("deadline .* /by .*")) {
                 String[] parts = command.split("/by");
-                Task task = new Deadline(parts[0].split(" ", 2)[1].trim(), parts[1].trim());
+                Deadline task = new Deadline(parts[0].split(" ", 2)[1].trim(), parts[1].trim(), false);
                 try {
                     if (task.getName().equals("")) {
                         throw new KunkkaException("Error: Task name cannot be empty");
@@ -136,7 +160,7 @@ public class Kunkka {
                         throw new KunkkaException("Error: Event end time cannot be empty");
                     }
                     else {
-                        Task task = new Event(name, from, to);
+                        Event task = new Event(name, from, to, false);
                         tasks.add(task);
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + task);
@@ -186,11 +210,45 @@ public class Kunkka {
 
         //Handle bye command
         System.out.println(horizontalLine + "\n" + farewell + "\n" + horizontalLine);
+
+        //Save tasks to file
+        try {
+            FileWriter fileWriter = new FileWriter("../../../data/kunkka.txt");
+            for (Task task : tasks) {
+                fileWriter.write(task.getType() + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName());
+                if (task.getType().equals("D")) {
+                    fileWriter.write(" | " + ((Deadline) task).getBy());
+                } else if (task.getType().equals("E")) {
+                    fileWriter.write(" | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo());
+                }
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the file.");
+        }
     }
 
     static void printTasks(List<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
+        }
+    }
+
+    static Task parseTask(String taskLine) {
+        String[] parts = taskLine.split(" \\| ");
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String name = parts[2];
+        switch (type) {
+            case "T":
+                return new Todo(name, isDone);
+            case "D":
+                return new Deadline(name, parts[3], isDone);
+            case "E":
+                return new Event(name, parts[3], parts[4], isDone);
+            default:
+                return null;
         }
     }
 }

@@ -4,14 +4,18 @@ public class Task {
     protected boolean isDone;
     protected String type;
 
-    public Task(String name, String type) {
+    public Task(String name, String type, boolean isDone) {
         this.name = name;
         this.type = type;
-        this.isDone = false;
+        this.isDone = isDone;
     }
 
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
+    }
+
+    public boolean getIsDone() {
+        return isDone;
     }
 
     public String getType() {

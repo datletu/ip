@@ -1,8 +1,8 @@
 package components;
 
 public class Todo extends Task {
-    public Todo(String name) {
-        super(name, "T");
+    public Todo(String name, boolean isDone) {
+        super(name, "T", isDone);
     }
 
     @Override
