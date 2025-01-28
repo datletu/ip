@@ -30,7 +30,7 @@ public class Kunkka {
         //Load tasks from file
         List<Task> tasks = new ArrayList<Task>();
         try {
-            File file = new File("../../../data/kunkka.txt");
+            File file = new File("./data/kunkka.txt");
             Scanner fileScanner = new Scanner(file);
             while (fileScanner.hasNextLine()) {
                 String taskLine = fileScanner.nextLine();
@@ -39,7 +39,7 @@ public class Kunkka {
             fileScanner.close();
         } catch (FileNotFoundException e) {
             try {
-                File file = new File("../../../data/kunkka.txt");
+                File file = new File("./data/kunkka.txt");
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             } catch (IOException ioException) {
@@ -213,7 +213,7 @@ public class Kunkka {
 
         //Save tasks to file
         try {
-            FileWriter fileWriter = new FileWriter("../../../data/kunkka.txt");
+            FileWriter fileWriter = new FileWriter("./data/kunkka.txt");
             for (Task task : tasks) {
                 fileWriter.write(task.getType() + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName());
                 if (task.getType().equals("D")) {
