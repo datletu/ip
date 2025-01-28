@@ -164,6 +164,9 @@ public class Kunkka {
                     }
                     else {
                         Event task = new Event(name, from, to, false);
+                        if (task.getDuration() < 0) {
+                            throw new KunkkaException("Error: Event end time must be after start time");
+                        }
                         tasks.add(task);
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + task);
