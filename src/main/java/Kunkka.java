@@ -216,7 +216,8 @@ public class Kunkka {
 
         //Handle bye command
         System.out.println(horizontalLine + "\n" + farewell + "\n" + horizontalLine);
-
+        sc.close();
+        
         //Save tasks to file
         try {
             FileWriter fileWriter = new FileWriter("../../../data/kunkka.txt");
