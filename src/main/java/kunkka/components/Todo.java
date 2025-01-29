@@ -1,4 +1,4 @@
-package components;
+package kunkka.components;
 
 public class Todo extends Task {
     public Todo(String name, boolean isDone) {

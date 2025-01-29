@@ -1,7 +1,9 @@
-package tasklist;
+package kunkka.tasklist;
 
-import components.*;
 import java.util.List;
+
+import kunkka.components.*;
+
 import java.util.ArrayList;
 
 public class Tasklist {

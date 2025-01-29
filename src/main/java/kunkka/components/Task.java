@@ -1,4 +1,4 @@
-package components;
+package kunkka.components;
 public class Task {
     protected String name;
     protected boolean isDone;

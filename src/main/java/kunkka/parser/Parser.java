@@ -1,7 +1,7 @@
-package parser;
+package kunkka.parser;
 
-import components.*;
-import command.*;
+import kunkka.command.*;
+import kunkka.components.*;
 
 public class Parser {
     public static Task parseTask(String taskLine) {
@@ -41,7 +41,6 @@ public class Parser {
 
         //Handle todo command
         else if (command.matches("todo .*")) {
-            System.out.println("todo command");
             return new TodoCommand(command.split(" ", 2)[1]);
         }
 

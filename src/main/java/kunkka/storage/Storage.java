@@ -1,14 +1,16 @@
-package storage;
+package kunkka.storage;
 
 import java.util.Scanner;
+
+import kunkka.components.*;
+import kunkka.parser.Parser;
+import kunkka.tasklist.Tasklist;
+
 import java.util.List;
-import components.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import parser.Parser;
-import tasklist.Tasklist;
 
 public class Storage {
     protected String filePath;

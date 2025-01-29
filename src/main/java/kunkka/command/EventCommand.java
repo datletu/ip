@@ -1,6 +1,6 @@
-package command;
-import tasklist.Tasklist;
-import components.*;
+package kunkka.command;
+import kunkka.components.*;
+import kunkka.tasklist.Tasklist;
 
 public class EventCommand extends Command {
     

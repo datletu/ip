@@ -1,4 +1,4 @@
-package ui;
+package kunkka.ui;
 
 public class UI {
     protected String logo = " _______  ______   _______ _________ _______  _______  _          _                 _        _        _        _______ \n"

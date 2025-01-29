@@ -1,5 +1,5 @@
-package command;
-import tasklist.*;
+package kunkka.command;
+import kunkka.tasklist.*;
 
 public class Unmark extends Command {
     private int taskNumber;

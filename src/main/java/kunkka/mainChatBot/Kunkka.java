@@ -1,10 +1,11 @@
-package kunkka;
+package kunkka.mainChatBot;
 import java.util.Scanner;
-import parser.*;
-import command.*;
-import tasklist.*;
-import storage.*;
-import ui.UI;
+
+import kunkka.command.*;
+import kunkka.parser.*;
+import kunkka.storage.*;
+import kunkka.tasklist.*;
+import kunkka.ui.UI;
 
 public class Kunkka {
     public static void main(String[] args) {

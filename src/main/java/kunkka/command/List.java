@@ -1,5 +1,5 @@
-package command;
-import tasklist.Tasklist;
+package kunkka.command;
+import kunkka.tasklist.Tasklist;
 
 
 
