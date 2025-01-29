@@ -1,3 +1,4 @@
+package kunkka;
 import java.util.Scanner;
 import parser.*;
 import command.*;
