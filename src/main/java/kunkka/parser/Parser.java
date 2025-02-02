@@ -14,7 +14,7 @@ import kunkka.command.TodoCommand;
 import kunkka.command.DeadlineCommand;
 import kunkka.command.EventCommand;
 import kunkka.command.Delete;
-
+import kunkka.command.Find;
 
 /**
  * Parser class to parse user input and return the corresponding command or task object
@@ -88,6 +88,11 @@ public class Parser {
         else if (command.matches("delete -?\\d+")) {
             int index = Integer.parseInt(command.split(" ")[1]);
             return new Delete(index);
+        }
+
+        //Handle find command
+        else if (command.matches("find .*")) {
+            return new Find(command.split(" ", 2)[1]);
         }
 
         //Handle invalid command

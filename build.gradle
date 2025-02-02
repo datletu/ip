@@ -43,7 +43,7 @@ run{
 shadowJar {
     archiveClassifier.set('')
     archiveBaseName = 'Kunkka'
-    archiveVersion = 'v1.0'
+    archiveVersion = 'v2.0'
     destinationDirectory = file('build/libs')
     mergeServiceFiles()
 }
