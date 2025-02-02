@@ -29,14 +29,21 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("kunkka.mainChatBot.Kunkka")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "Kunkka"
     archiveClassifier = null
 }
 
 run{
     standardInput = System.in
+}
+shadowJar {
+    archiveClassifier.set('')
+    archiveBaseName = 'Kunkka'
+    archiveVersion = 'v1.0'
+    destinationDirectory = file('build/libs')
+    mergeServiceFiles()
 }
