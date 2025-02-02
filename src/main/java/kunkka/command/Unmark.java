@@ -1,5 +1,5 @@
 package kunkka.command;
-import kunkka.tasklist.*;
+import kunkka.tasklist.Tasklist;
 
 /**
  * Represents a command to unmark a task as done.

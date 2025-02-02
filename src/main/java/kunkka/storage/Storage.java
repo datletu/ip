@@ -2,7 +2,10 @@ package kunkka.storage;
 
 import java.util.Scanner;
 
-import kunkka.components.*;
+import kunkka.components.Deadline;
+import kunkka.components.Event;
+import kunkka.components.Task;
+
 import kunkka.parser.Parser;
 import kunkka.tasklist.Tasklist;
 

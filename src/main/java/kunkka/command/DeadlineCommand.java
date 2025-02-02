@@ -1,6 +1,8 @@
 package kunkka.command;
-import kunkka.components.*;
-import kunkka.tasklist.*;
+import kunkka.components.KunkkaException;
+import kunkka.components.Task;
+import kunkka.components.Deadline;
+import kunkka.tasklist.Tasklist;
 
 public class DeadlineCommand extends Command {
     
