@@ -71,8 +71,9 @@ public class Parser {
             }
             catch (KunkkaException e) {
                 System.out.println(e.getMessage());
+                return null;
             }
-            return null;
+            
         }           
     }
 }
