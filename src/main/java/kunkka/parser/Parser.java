@@ -1,7 +1,20 @@
 package kunkka.parser;
 
-import kunkka.command.*;
-import kunkka.components.*;
+import kunkka.components.Task;
+import kunkka.components.Todo;
+import kunkka.components.Deadline;
+import kunkka.components.Event;
+import kunkka.components.KunkkaException;
+
+import kunkka.command.Command;
+import kunkka.command.List;
+import kunkka.command.Mark;
+import kunkka.command.Unmark;
+import kunkka.command.TodoCommand;
+import kunkka.command.DeadlineCommand;
+import kunkka.command.EventCommand;
+import kunkka.command.Delete;
+
 
 /**
  * Parser class to parse user input and return the corresponding command or task object
