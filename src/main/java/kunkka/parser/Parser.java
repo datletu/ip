@@ -3,7 +3,15 @@ package kunkka.parser;
 import kunkka.command.*;
 import kunkka.components.*;
 
+/**
+ * Parser class to parse user input and return the corresponding command or task object
+ */
 public class Parser {
+    /**
+     * Parses a task from a string
+     * @param taskLine the string to parse
+     * @return the task object
+     */
     public static Task parseTask(String taskLine) {
         String[] parts = taskLine.split(" \\| ");
         String type = parts[0];
@@ -21,6 +29,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a command from a string
+     * @param command the string to parse
+     * @return the command object
+     */
     public static Command parseCommand(String command) {
         //Handle list command
         if (command.equals("list")) {

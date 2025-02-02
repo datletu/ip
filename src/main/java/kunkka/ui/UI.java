@@ -1,5 +1,8 @@
 package kunkka.ui;
 
+/**
+ * UI class handles the user interface of the application.
+ */
 public class UI {
     protected String logo = " _______  ______   _______ _________ _______  _______  _          _                 _        _        _        _______ \n"
                     + "(  ___  )(  __  \\ (       )\\__   __/(  ____ )(  ___  )( \\        | \\    /\\|\\     /|( (    /|| \\    /\\| \\    /\\(  ___  )\n"

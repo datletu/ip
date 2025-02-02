@@ -4,14 +4,27 @@ import java.util.*;
 import kunkka.components.*;
 import kunkka.tasklist.Tasklist;
 
+/**
+ * Represents a command to add a todo task to the tasklist.
+ */
 public class TodoCommand extends Command {
     protected String description;
     
+    /**
+     * Constructor for TodoCommand.
+     * 
+     * @param command The description of the todo task.
+     */
     public TodoCommand(String command) {
         super("todo");
         this.description = command;
     }
     
+    /**
+     * Executes the command to add a todo task to the tasklist.
+     * 
+     * @param tasks The tasklist to which the todo task is to be added.
+     */
     public void execute(Tasklist tasks) {
         try {
             if (description.equals("")) {

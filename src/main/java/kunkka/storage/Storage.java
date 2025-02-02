@@ -12,13 +12,24 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Storage class to handle loading and saving of tasks to file.
+ */
 public class Storage {
     protected String filePath;
 
+    /**
+     * Constructor for Storage class.
+     * @param filePath File path to save tasks to.
+     */
     public Storage (String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Load tasks from file.
+     * @return Tasklist containing tasks loaded from file.
+     */
     public Tasklist load() {
         //Load tasks from file
         Tasklist tasks = new Tasklist();
@@ -44,6 +55,10 @@ public class Storage {
         }
     }
 
+    /**
+     * Save tasks to file.
+     * @param taskslist Tasklist containing tasks to save.
+     */
     public void save(Tasklist taskslist) {
         //Save tasks to file
         try {

@@ -7,12 +7,21 @@ public class DeadlineCommand extends Command {
     protected String description;
     protected String by;
 
+    /**
+     * Constructor for DeadlineCommand
+     * @param description Description of the deadline task
+     * @param by Deadline of the task
+     */
     public DeadlineCommand(String description, String by) {
         super("deadline");
         this.description = description;
         this.by = by;
     }
 
+    /**
+     * Executes the deadline command
+     * @param tasks Tasklist containing all tasks
+     */
     public void execute(Tasklist tasks) {
         try {
             if (description.equals("")) {

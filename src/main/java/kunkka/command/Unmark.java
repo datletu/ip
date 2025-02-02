@@ -1,18 +1,36 @@
 package kunkka.command;
 import kunkka.tasklist.*;
 
+/**
+ * Represents a command to unmark a task as done.
+ */
 public class Unmark extends Command {
     private int taskNumber;
 
+    /**
+     * Constructor for Unmark command.
+     * 
+     * @param taskNumber The task number to unmark.
+     */
     public Unmark(int taskNumber) {
         super("unmark");
         this.taskNumber = taskNumber;
     }
 
+    /**
+     * Gets the task number to unmark.
+     * 
+     * @return The task number to unmark.
+     */
     public int getTaskNumber() {
         return taskNumber;
     }
 
+    /**
+     * Executes the Unmark command.
+     * 
+     * @param tasklist The tasklist to unmark the task from.
+     */
     public void execute(Tasklist tasklist) {
         tasklist.unmarkTaskAsDone(taskNumber);
     }

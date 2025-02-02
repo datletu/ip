@@ -2,12 +2,22 @@ package kunkka.command;
 import kunkka.components.*;
 import kunkka.tasklist.Tasklist;
 
+/**
+ * Represents a command to add an event task to the task list.
+ */
 public class EventCommand extends Command {
     
     protected String description;
     protected String from;
     protected String to;
 
+    /**
+     * Constructs an EventCommand object.
+     * 
+     * @param description Description of the event task.
+     * @param from Start time of the event task.
+     * @param to End time of the event task.
+     */
     public EventCommand(String description, String from, String to){
         super("event");
         this.description = description;
@@ -15,6 +25,11 @@ public class EventCommand extends Command {
         this.to = to;
     }
 
+    /**
+     * Executes the event command to add an event task to the task list.
+     * 
+     * @param tasks Tasklist object that stores the list of tasks.
+     */
     public void execute(Tasklist tasks) {
         try {
             if (description.trim().equals("")) {
