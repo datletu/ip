@@ -43,6 +43,9 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String command = userInput.getText();
+        if (command.equals("bye")) {
+            System.exit(0);
+        }
         Storage storage = new Storage("./data/kunkka.txt");
         Tasklist tasks = storage.load();
         String response = "";
