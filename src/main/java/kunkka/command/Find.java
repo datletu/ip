@@ -24,12 +24,15 @@ public class Find extends Command {
      * @param tasks The tasklist to search for tasks in.
      */
     @Override
-    public void execute(Tasklist tasks) {
+    public String execute(Tasklist tasks) {
+        StringBuilder output = new StringBuilder();
         for (Task task : tasks.getTasks()) {
             if (task.getName().contains(keyword)) {
                 System.out.println(task);
+                output.append(task).append("\n");
             }
         }
+        return output.toString();
     }
     
 }

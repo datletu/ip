@@ -7,6 +7,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
+import kunkka.command.Command;
+import kunkka.parser.Parser;
+import kunkka.storage.Storage;
+import kunkka.tasklist.Tasklist;
+
+
 /**
  * Controller for the main GUI.
  */
@@ -20,8 +27,6 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-    private Duke duke;
-
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
@@ -30,10 +35,6 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
-    public void setDuke(Duke d) {
-        duke = d;
-    }
 
     /**
      * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
@@ -41,10 +42,19 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
-        String input = userInput.getText();
-        String response = duke.getResponse(input);
+        String command = userInput.getText();
+        Storage storage = new Storage("./data/kunkka.txt");
+        Tasklist tasks = storage.load();
+        String response = "";
+        try {
+            Command c = Parser.parseCommand(command.trim());
+            response = c.execute(tasks);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response = e.getMessage();
+        }
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getUserDialog(command, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)
         );
         userInput.clear();

@@ -31,7 +31,15 @@ public class Delete extends Command {
      * 
      * @param tasklist Tasklist to execute the command on.
      */
-    public void execute(Tasklist tasklist) {
-        tasklist.deleteTask(index);
+    public String execute(Tasklist tasklist) {
+        try{
+            tasklist.deleteTask(index);
+            return "Noted. I've removed this task:\n" + tasklist.getTask(index) + "\nNow you have " + tasklist.getSize() + " tasks in the list.";
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+        
     }    
 }

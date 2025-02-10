@@ -31,8 +31,15 @@ public class Unmark extends Command {
      * 
      * @param tasklist The tasklist to unmark the task from.
      */
-    public void execute(Tasklist tasklist) {
-        tasklist.unmarkTaskAsDone(taskNumber);
+    public String execute(Tasklist tasklist) {
+        try{
+            return tasklist.unmarkTaskAsDone(taskNumber);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+        
     }
     
 }

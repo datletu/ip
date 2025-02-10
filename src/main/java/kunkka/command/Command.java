@@ -12,6 +12,6 @@ public abstract class Command {
         return type;
     }
 
-    public abstract void execute(Tasklist tasks);
+    public abstract String execute(Tasklist tasks);
 
 }

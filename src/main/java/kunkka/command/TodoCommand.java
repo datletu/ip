@@ -25,7 +25,7 @@ public class TodoCommand extends Command {
      * 
      * @param tasks The tasklist to which the todo task is to be added.
      */
-    public void execute(Tasklist tasks) {
+    public String execute(Tasklist tasks) {
         try {
             if (description.equals("")) {
                 throw new KunkkaException("Error: Task name cannot be empty");
@@ -36,10 +36,12 @@ public class TodoCommand extends Command {
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + task);
                 System.out.println("Now you have " + tasks.getTasks().size() + " tasks in the list.");
+                return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.getTasks().size() + " tasks in the list.";
             }
         }
         catch (KunkkaException e) {
             System.out.println(e.getMessage());
+            return e.getMessage();
         }
     }
 }

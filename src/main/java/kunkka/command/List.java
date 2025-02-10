@@ -15,8 +15,9 @@ public class List extends Command {
      *
      * @param taskslist Tasklist object that contains the list of tasks.
      */
-    public void execute(Tasklist taskslist) {
-        taskslist.printTasks();
+    public String execute(Tasklist taskslist) {
+        return taskslist.printTasks();
+        
     }
 
 }

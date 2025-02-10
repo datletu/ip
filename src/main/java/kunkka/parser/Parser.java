@@ -15,6 +15,7 @@ import kunkka.command.DeadlineCommand;
 import kunkka.command.EventCommand;
 import kunkka.command.Delete;
 import kunkka.command.Find;
+import kunkka.command.InvalidCommand;
 
 /**
  * Parser class to parse user input and return the corresponding command or task object
@@ -102,9 +103,8 @@ public class Parser {
             }
             catch (KunkkaException e) {
                 System.out.println(e.getMessage());
-                return null;
+                return new InvalidCommand();
             }
-            
         }           
     }
 }

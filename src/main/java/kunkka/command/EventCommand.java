@@ -31,7 +31,7 @@ public class EventCommand extends Command {
      * 
      * @param tasks Tasklist object that stores the list of tasks.
      */
-    public void execute(Tasklist tasks) {
+    public String execute(Tasklist tasks) {
         try {
             if (description.trim().equals("")) {
                 throw new KunkkaException("Error: Task description cannot be empty");
@@ -51,10 +51,12 @@ public class EventCommand extends Command {
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + task);
                 System.out.println("Now you have " + tasks.getTasks().size() + " tasks in the list.");
+                return "Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.getTasks().size() + " tasks in the list.";
             }
         }
         catch (KunkkaException e) {
             System.out.println(e.getMessage());
+            return e.getMessage();
         }
     }
 }

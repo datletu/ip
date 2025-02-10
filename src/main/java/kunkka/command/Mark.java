@@ -31,7 +31,13 @@ public class Mark extends Command {
      * 
      * @param tasklist Tasklist object that contains the list of tasks.
      */
-    public void execute(Tasklist tasklist) {
-        tasklist.markTaskAsDone(index);
+    public String execute(Tasklist tasklist) {
+        try{
+            return tasklist.markTaskAsDone(index);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
     }
 }

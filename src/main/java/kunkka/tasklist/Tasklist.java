@@ -30,6 +30,24 @@ public class Tasklist {
     }
 
     /**
+     * Returns the size of the list of tasks.
+     * 
+     * @return Size of the list of tasks.
+     */
+    public Task getTask(int index) {
+        return tasks.get(index);
+    }
+
+    /**
+     * Returns the size of the list of tasks.
+     * 
+     * @return Size of the list of tasks.
+     */
+    public int getSize() {
+        return tasks.size();
+    }
+
+    /**
      * Returns the list of tasks.
      * 
      * @return List of tasks.
@@ -75,10 +93,13 @@ public class Tasklist {
     /**
      * Prints the list of tasks.
      */
-    public void printTasks() {
+    public String printTasks() {
+        String output = "";
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
+            output += (i + 1) + ". " + tasks.get(i) + "\n";
         }
+        return output;
     }
 
     /**
@@ -86,7 +107,7 @@ public class Tasklist {
      * 
      * @param keyword Keyword to search for.
      */
-    public void markTaskAsDone(int index) {
+    public String markTaskAsDone(int index) {
         try {
             if (index > tasks.size()) {
                 throw new KunkkaException("Error: Invalid task number (Out of range)");
@@ -98,6 +119,7 @@ public class Tasklist {
                 tasks.get(index - 1).markAsDone();
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println("  " + tasks.get(index - 1));
+                return "Nice! I've marked this task as done:\n  " + tasks.get(index - 1);
             }
 
         }
@@ -105,6 +127,7 @@ public class Tasklist {
             System.out.println(e.getMessage());
 
         }
+        return "";
     }
 
     /**
@@ -112,7 +135,7 @@ public class Tasklist {
      * 
      * @param index Index of the task to be unmarked.
      */
-    public void unmarkTaskAsDone(int index) {
+    public String unmarkTaskAsDone(int index) {
         try {
             if (index > tasks.size()) {
                 throw new KunkkaException("Error: Invalid task number (Out of range)");
@@ -124,11 +147,13 @@ public class Tasklist {
                 tasks.get(index - 1).unmarkAsDone();
                 System.out.println("Nice! I've unmarked this task:");
                 System.out.println("  " + tasks.get(index - 1));
+                return "Nice! I've unmarked this task:\n  " + tasks.get(index - 1);
             }
         }
         catch (KunkkaException e) {
             System.out.println(e.getMessage());
         }
+        return "";
     }
 
 }
