@@ -19,6 +19,7 @@ public class Task {
         this.name = name;
         this.type = type;
         this.isDone = isDone;
+        assert name != null : "Task name cannot be null";
     }
 
     /**
