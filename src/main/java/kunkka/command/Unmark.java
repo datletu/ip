@@ -33,6 +33,7 @@ public class Unmark extends Command {
      */
     public String execute(Tasklist tasklist) {
         try{
+            assert(taskNumber >= 0 && taskNumber < tasklist.getSize()): "Task number is out of range";
             return tasklist.unmarkTaskAsDone(taskNumber);
         }
         catch (Exception e) {
