@@ -72,7 +72,7 @@ public class Parser {
             return parseFindPriorityCommand(command);
         } else if (command.matches("find .*")) {
             return parseFindCommand(command);
-        } else if (command.matches("re-priority -?\\d+ -?\\d+")) {
+        } else if (command.matches("setpriority -?\\d+ -?\\d+")) {
             return parseSetPriorityCommand(command);
         } else {
             return parseInvalidCommand();
