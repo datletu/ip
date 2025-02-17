@@ -16,9 +16,11 @@ public class Event extends Task {
      * @param name Name of the event.
      * @param from Start date of the event.
      * @param to End date of the event.
+     * @param isDone Status of the event.
+     * @param priority Priority of the event.
      */
-    public Event(String name, String from, String to, boolean isDone) {
-        super(name, "E", isDone);
+    public Event(String name, String from, String to, boolean isDone, int priority) {
+        super(name, "E", isDone, priority);
         this.from = LocalDate.parse(from);
         this.to = LocalDate.parse(to);
     }
@@ -68,6 +70,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + "[" + getStatusIcon() + "] " + name + " (from: " + getFromFormatted() + " to: " + getToFormatted() + ")";
+        return "[E]" + "[" + getStatusIcon() + "] " + name + " (from: " + getFromFormatted() + " to: " + getToFormatted() + ")" + " (Priority: " + priority + ")";
     }
 }

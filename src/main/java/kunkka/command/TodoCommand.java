@@ -10,15 +10,18 @@ import kunkka.tasklist.Tasklist;
  */
 public class TodoCommand extends Command {
     protected String description;
-    
+    protected int priority;
+
     /**
      * Constructor for TodoCommand.
      * 
      * @param command The description of the todo task.
+     * @param priority The priority of the todo task.
      */
-    public TodoCommand(String command) {
+    public TodoCommand(String command, int priority) {
         super("todo");
         this.description = command;
+        this.priority = priority;
     }
     
     /**
@@ -32,8 +35,9 @@ public class TodoCommand extends Command {
                 throw new KunkkaException("Error: Task name cannot be empty");
             }
             else {
-                Task task = new Todo(description, false);
+                Task task = new Todo(description, false, priority);
                 tasks.addTask(task);
+                System.out.println(task);
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + task);
                 System.out.println("Now you have " + tasks.getTasks().size() + " tasks in the list.");

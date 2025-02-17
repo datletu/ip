@@ -13,9 +13,11 @@ public class Deadline extends Task {
      *
      * @param name Name of the deadline task.
      * @param by Deadline of the task.
+     * @param isDone Status of the task.
+     * @param priority priority of the task.
      */
-    public Deadline(String name, String by, boolean isDone) {
-        super(name, "D", isDone);
+    public Deadline(String name, String by, boolean isDone, int priority) {
+        super(name, "D", isDone, priority);
         assert by != null : "Deadline cannot be null";
         this.by = LocalDate.parse(by);
     }
@@ -41,6 +43,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + "[" + getStatusIcon() + "] " + name + " (by: " + getByFormatted() + ")";
+        return "[D]" + "[" + getStatusIcon() + "] " + name + " (by: " + getByFormatted() + ")" + " (Priority: " + priority + ")";
     }
 }

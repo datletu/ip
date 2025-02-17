@@ -68,11 +68,11 @@ public class Storage {
             FileWriter fileWriter = new FileWriter("./data/kunkka.txt");
             List<Task> tasks = taskslist.getTasks();
             for (Task task : tasks) {
-                fileWriter.write(task.getType() + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName());
+                fileWriter.write(task.getType() + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName() + " | " + task.getPriority());
                 if (task.getType().equals("D")) {
-                    fileWriter.write(" | " + ((Deadline) task).getBy());
+                    fileWriter.write(" | " + ((Deadline) task).getBy() + " | " + ((Deadline) task).getPriority());
                 } else if (task.getType().equals("E")) {
-                    fileWriter.write(" | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo());
+                    fileWriter.write(" | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo() + " | " + ((Event) task).getPriority());
                 }
                 fileWriter.write("\n");
             }

@@ -15,6 +15,8 @@ import kunkka.command.DeadlineCommand;
 import kunkka.command.EventCommand;
 import kunkka.command.Delete;
 import kunkka.command.Find;
+import kunkka.command.FindPriority;
+import kunkka.command.SetPriority;
 import kunkka.command.InvalidCommand;
 
 /**
@@ -33,11 +35,11 @@ public class Parser {
         String name = parts[2];
         switch (type) {
             case "T":
-                return new Todo(name, isDone);
+                return new Todo(name, isDone, Integer.parseInt(parts[3]));
             case "D":
-                return new Deadline(name, parts[3], isDone);
+                return new Deadline(name, parts[3], isDone, Integer.parseInt(parts[4]));
             case "E":
-                return new Event(name, parts[3], parts[4], isDone);
+                return new Event(name, parts[3], parts[4], isDone, Integer.parseInt(parts[5]));
             default:
                 return null;
         }
@@ -49,6 +51,7 @@ public class Parser {
      * @return the command object
      */
     public static Command parseCommand(String command) {
+        command = command.trim();   
         if (command.equals("list")) {
             return parseListCommand();
         } else if (command.matches("mark -?\\d+")) {
@@ -63,8 +66,14 @@ public class Parser {
             return parseEventCommand(command);
         } else if (command.matches("delete -?\\d+")) {
             return parseDeleteCommand(command);
+        } else if (command.matches("find -p -?\\d+")) {
+            return parseFindPriorityCommand(command);
+        } else if (command.matches("find -priority -?\\d+")) {
+            return parseFindPriorityCommand(command);
         } else if (command.matches("find .*")) {
             return parseFindCommand(command);
+        } else if (command.matches("re-priority -?\\d+ -?\\d+")) {
+            return parseSetPriorityCommand(command);
         } else {
             return parseInvalidCommand();
         }
@@ -104,7 +113,8 @@ public class Parser {
      * @return the todo command object
      */
     private static Command parseTodoCommand(String command) {
-        return new TodoCommand(command.split(" ", 2)[1]);
+        int priority = Integer.parseInt(command.split(" /priority ")[1]);
+        return new TodoCommand(command.split(" ", 3)[1], priority);
     }
 
     /**
@@ -114,7 +124,8 @@ public class Parser {
      */
     private static Command parseDeadlineCommand(String command) {
         String[] parts = command.split("/by");
-        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), parts[1].trim());
+        int priority = Integer.parseInt(parts[1].trim().split(" /priority ")[1]);
+        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), parts[1].trim(), priority);
     }
 
     /**
@@ -126,7 +137,8 @@ public class Parser {
         String name = command.split("/from")[0].split(" ", 2)[1].trim();
         String from = command.split("/from")[1].split("/to")[0].trim();
         String to = command.split("/to")[1].trim();
-        return new EventCommand(name, from, to);
+        int priority = Integer.parseInt(to.split(" /priority ")[1]);
+        return new EventCommand(name, from, to, priority);
     }
 
     /**
@@ -146,6 +158,23 @@ public class Parser {
      */
     private static Command parseFindCommand(String command) {
         return new Find(command.split(" ", 2)[1]);
+    }
+
+    /**
+     * Parses a find priority command.
+     * @param command the string to parse
+     * @param priority the priority to search for
+     * @return the find priority command object
+     */
+    private static Command parseFindPriorityCommand(String command) {
+        //System.out.println("asdfasdfasdfasdfsd");
+        return new FindPriority(Integer.parseInt(command.trim().split(" ")[2]));
+    }
+
+    private static Command parseSetPriorityCommand(String command) {
+        int index = Integer.parseInt(command.split(" ")[1]);
+        int priority = Integer.parseInt(command.split(" ")[2]);
+        return new SetPriority(priority, index - 1);
     }
 
     /**

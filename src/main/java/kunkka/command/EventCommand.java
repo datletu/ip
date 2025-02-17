@@ -11,6 +11,7 @@ public class EventCommand extends Command {
     protected String description;
     protected String from;
     protected String to;
+    protected int priority;
 
     /**
      * Constructs an EventCommand object.
@@ -19,11 +20,12 @@ public class EventCommand extends Command {
      * @param from Start time of the event task.
      * @param to End time of the event task.
      */
-    public EventCommand(String description, String from, String to){
+    public EventCommand(String description, String from, String to, int priority) {
         super("event");
         this.description = description;
         this.from = from;
         this.to = to;
+        this.priority = priority;
     }
 
     /**
@@ -43,7 +45,7 @@ public class EventCommand extends Command {
                 throw new KunkkaException("Error: Event end time cannot be empty");
             }
             else {
-                Event task = new Event(description, from, to, false);
+                Event task = new Event(description, from, to, false, priority);
                 if (task.getDuration() < 0) {
                     throw new KunkkaException("Error: Event end time must be after start time");
                 }

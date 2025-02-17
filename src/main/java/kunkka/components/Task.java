@@ -7,6 +7,7 @@ public class Task {
     protected String name;
     protected boolean isDone;
     protected String type;
+    protected int priority;
 
     /**
      * Constructor for Task.
@@ -14,11 +15,13 @@ public class Task {
      * @param name Name of the task.
      * @param type Type of the task.
      * @param isDone Status of the task.
+     * @param priority priority of the task.
      */
-    public Task(String name, String type, boolean isDone) {
+    public Task(String name, String type, boolean isDone, int priority) {
         this.name = name;
         this.type = type;
         this.isDone = isDone;
+        this.priority = priority;
         assert name != null : "Task name cannot be null";
     }
 
@@ -70,6 +73,25 @@ public class Task {
      */
     public String getName() {
         return name;
+    }
+
+
+    /**
+     * Returns the priority of the task.
+     *
+     * @return Priority of the task.
+     */
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * Sets the priority of the task.
+     *
+     * @param priority Priority of the task.
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     @Override

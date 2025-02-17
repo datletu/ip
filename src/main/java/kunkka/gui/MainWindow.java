@@ -52,6 +52,7 @@ public class MainWindow extends AnchorPane {
         try {
             Command c = Parser.parseCommand(command.trim());
             response = c.execute(tasks);
+            storage.save(tasks);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             response = e.getMessage();
