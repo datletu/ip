@@ -18,11 +18,11 @@ import kunkka.command.Find;
 import kunkka.command.InvalidCommand;
 
 /**
- * Parser class to parse user input and return the corresponding command or task object
+ * Parser class to parse user input and return the corresponding command or task object.
  */
 public class Parser {
     /**
-     * Parses a task from a string
+     * Parses a task from a string.
      * @param taskLine the string to parse
      * @return the task object
      */
@@ -44,68 +44,120 @@ public class Parser {
     }
 
     /**
-     * Parses a command from a string
+     * Parses a command from a string.
      * @param command the string to parse
      * @return the command object
      */
     public static Command parseCommand(String command) {
-        //Handle list command
         if (command.equals("list")) {
-            return new List();
-        } 
-
-        //Handle mark command
-        else if (command.matches("mark -?\\d+")) {
-            int index = Integer.parseInt(command.split(" ")[1]);
-            return new Mark(index);
+            return parseListCommand();
+        } else if (command.matches("mark -?\\d+")) {
+            return parseMarkCommand(command);
+        } else if (command.matches("unmark \\d+")) {
+            return parseUnmarkCommand(command);
+        } else if (command.matches("todo .*")) {
+            return parseTodoCommand(command);
+        } else if (command.matches("deadline .* /by .*")) {
+            return parseDeadlineCommand(command);
+        } else if (command.matches("event .* /from.*/to.*")) {
+            return parseEventCommand(command);
+        } else if (command.matches("delete -?\\d+")) {
+            return parseDeleteCommand(command);
+        } else if (command.matches("find .*")) {
+            return parseFindCommand(command);
+        } else {
+            return parseInvalidCommand();
         }
+    }
 
-        //Handle unmark command
-        else if (command.matches("unmark \\d+")) {
-            int index = Integer.parseInt(command.split(" ")[1]);
-            return new Unmark(index);
+    /**
+     * Parses a list command.
+     * @return the list command object
+     */
+    private static Command parseListCommand() {
+        return new List();
+    }
+
+    /**
+     * Parses a mark command.
+     * @param command the string to parse
+     * @return the mark command object
+     */
+    private static Command parseMarkCommand(String command) {
+        int index = Integer.parseInt(command.split(" ")[1]);
+        return new Mark(index);
+    }
+
+    /**
+     * Parses an unmark command.
+     * @param command the string to parse
+     * @return the unmark command object
+     */
+    private static Command parseUnmarkCommand(String command) {
+        int index = Integer.parseInt(command.split(" ")[1]);
+        return new Unmark(index);
+    }
+
+    /**
+     * Parses a todo command.
+     * @param command the string to parse
+     * @return the todo command object
+     */
+    private static Command parseTodoCommand(String command) {
+        return new TodoCommand(command.split(" ", 2)[1]);
+    }
+
+    /**
+     * Parses a deadline command.
+     * @param command the string to parse
+     * @return the deadline command object
+     */
+    private static Command parseDeadlineCommand(String command) {
+        String[] parts = command.split("/by");
+        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), parts[1].trim());
+    }
+
+    /**
+     * Parses an event command.
+     * @param command the string to parse
+     * @return the event command object
+     */
+    private static Command parseEventCommand(String command) {
+        String name = command.split("/from")[0].split(" ", 2)[1].trim();
+        String from = command.split("/from")[1].split("/to")[0].trim();
+        String to = command.split("/to")[1].trim();
+        return new EventCommand(name, from, to);
+    }
+
+    /**
+     * Parses a delete command.
+     * @param command the string to parse
+     * @return the delete command object
+     */
+    private static Command parseDeleteCommand(String command) {
+        int index = Integer.parseInt(command.split(" ")[1]);
+        return new Delete(index);
+    }
+
+    /**
+     * Parses a find command.
+     * @param command the string to parse
+     * @return the find command object
+     */
+    private static Command parseFindCommand(String command) {
+        return new Find(command.split(" ", 2)[1]);
+    }
+
+    /**
+     * Parses an invalid command.
+     * @return the invalid command object
+     */
+    private static Command parseInvalidCommand() {
+        try {
+            throw new KunkkaException("Error: Invalid command");
+        } catch (KunkkaException e) {
+            System.out.println(e.getMessage());
+            return new InvalidCommand();
         }
-
-        //Handle todo command
-        else if (command.matches("todo .*")) {
-            return new TodoCommand(command.split(" ", 2)[1]);
-        }
-
-        //Handle deadline command
-        else if (command.matches("deadline .* /by .*")) {
-            String[] parts = command.split("/by");
-            return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), parts[1].trim());
-        }
-
-        //Handle event command
-        else if (command.matches("event .* /from.*/to.*")) {
-            String name = command.split("/from")[0].split(" ", 2)[1].trim();
-            String from = command.split("/from")[1].split("/to")[0].trim();
-            String to = command.split("/to")[1].trim();
-            return new EventCommand(name, from, to);
-        }
-
-        //Handle delete command
-        else if (command.matches("delete -?\\d+")) {
-            int index = Integer.parseInt(command.split(" ")[1]);
-            return new Delete(index);
-        }
-
-        //Handle find command
-        else if (command.matches("find .*")) {
-            return new Find(command.split(" ", 2)[1]);
-        }
-
-        //Handle invalid command
-        else {
-            try {
-                throw new KunkkaException("Error: Invalid command");
-            }
-            catch (KunkkaException e) {
-                System.out.println(e.getMessage());
-                return new InvalidCommand();
-            }
-        }           
     }
 }
-
