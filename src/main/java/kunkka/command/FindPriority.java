@@ -24,6 +24,7 @@ public class FindPriority extends Command {
     public String execute(Tasklist tasks) {
         System.out.println("Here are the tasks with priority " + priority + ":");
         StringBuilder output = new StringBuilder();
+        output.append("Here are the tasks with priority " + priority + ":\n");
         for (Task task : tasks.getTasks()) {
             if (task.getPriority() == priority) {
                 System.out.println(task);

@@ -34,8 +34,7 @@ public class Delete extends Command {
     public String execute(Tasklist tasklist) {
         try{
             assert(index >= 0 && index < tasklist.getSize()) : "Invalid index";
-            tasklist.deleteTask(index);
-            return "Noted. I've removed this task:\n" + tasklist.getTask(index) + "\nNow you have " + tasklist.getSize() + " tasks in the list.";
+            return tasklist.deleteTask(index);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

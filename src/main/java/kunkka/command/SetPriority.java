@@ -32,7 +32,7 @@ public class SetPriority extends Command {
             Task task = tasks.getTask(index);
             task.setPriority(priority);
             index += 1;
-            return "Priority of task " + index + " set to " + priority;
+            return "Priority of task " + task.getName() + " set to " + priority;
 
         } catch (KunkkaException e) {
             return e.getMessage();

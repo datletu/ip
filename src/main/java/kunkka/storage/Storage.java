@@ -70,9 +70,9 @@ public class Storage {
             for (Task task : tasks) {
                 fileWriter.write(task.getType() + " | " + (task.getIsDone() ? "1" : "0") + " | " + task.getName() + " | " + task.getPriority());
                 if (task.getType().equals("D")) {
-                    fileWriter.write(" | " + ((Deadline) task).getBy() + " | " + ((Deadline) task).getPriority());
+                    fileWriter.write(" | " + ((Deadline) task).getBy() + " | ");
                 } else if (task.getType().equals("E")) {
-                    fileWriter.write(" | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo() + " | " + ((Event) task).getPriority());
+                    fileWriter.write(" | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo() + " | ");
                 }
                 fileWriter.write("\n");
             }

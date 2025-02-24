@@ -70,7 +70,8 @@ public class Tasklist {
      * 
      * @param index Index of the task to be deleted.
      */
-    public void deleteTask(int index) {
+    public String deleteTask(int index) {
+        System.out.println(index);
         try {
             if (index > tasks.size()) {
                 throw new KunkkaException("Error: Invalid task number (Out of range)");
@@ -80,13 +81,15 @@ public class Tasklist {
             }
             else {
                 Task task = tasks.remove(index - 1);
-                System.out.println("Noted. I've removed this task:");
-                System.out.println("  " + task);
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                String response = "Noted. I've removed this task:\n" + task + "\nNow you have " + tasks.size() + " tasks in the list.";
+                System.out.println(response);
+                return response;
+
             }
         }
         catch (KunkkaException e) {
             System.out.println(e.getMessage());
+            return e.getMessage();
         }
     }
 

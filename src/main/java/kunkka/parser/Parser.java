@@ -37,9 +37,9 @@ public class Parser {
             case "T":
                 return new Todo(name, isDone, Integer.parseInt(parts[3]));
             case "D":
-                return new Deadline(name, parts[3], isDone, Integer.parseInt(parts[4]));
+                return new Deadline(name, parts[4], isDone, Integer.parseInt(parts[3]));
             case "E":
-                return new Event(name, parts[3], parts[4], isDone, Integer.parseInt(parts[5]));
+                return new Event(name, parts[4], parts[5], isDone, Integer.parseInt(parts[3]));
             default:
                 return null;
         }
@@ -125,7 +125,8 @@ public class Parser {
     private static Command parseDeadlineCommand(String command) {
         String[] parts = command.split("/by");
         int priority = Integer.parseInt(parts[1].trim().split(" /priority ")[1]);
-        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), parts[1].trim(), priority);
+        String deadline = parts[1].trim().split(" /priority ")[0];
+        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), deadline, priority);
     }
 
     /**
@@ -138,6 +139,7 @@ public class Parser {
         String from = command.split("/from")[1].split("/to")[0].trim();
         String to = command.split("/to")[1].trim();
         int priority = Integer.parseInt(to.split(" /priority ")[1]);
+        to = to.split(" /priority ")[0];
         return new EventCommand(name, from, to, priority);
     }
 
