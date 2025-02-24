@@ -58,11 +58,11 @@ public class Parser {
             return parseMarkCommand(command);
         } else if (command.matches("unmark \\d+")) {
             return parseUnmarkCommand(command);
-        } else if (command.matches("todo .*")) {
+        } else if (command.matches("todo .* /priority -?\\d+")) {
             return parseTodoCommand(command);
-        } else if (command.matches("deadline .* /by .*")) {
+        } else if (command.matches("deadline .* /by .* /priority -?\\d+")) {
             return parseDeadlineCommand(command);
-        } else if (command.matches("event .* /from.*/to.*")) {
+        } else if (command.matches("event .* /from.*/to.* /priority -?\\d+")) {
             return parseEventCommand(command);
         } else if (command.matches("delete -?\\d+")) {
             return parseDeleteCommand(command);

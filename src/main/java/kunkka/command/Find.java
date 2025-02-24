@@ -32,6 +32,9 @@ public class Find extends Command {
                 output.append(task).append("\n");
             }
         }
+        if (output.length() == 0) {
+            return "No tasks found.";
+        }
         return output.toString();
     }
     
