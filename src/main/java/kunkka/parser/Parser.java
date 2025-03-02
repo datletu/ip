@@ -58,11 +58,11 @@ public class Parser {
             return parseMarkCommand(command);
         } else if (command.matches("unmark \\d+")) {
             return parseUnmarkCommand(command);
-        } else if (command.matches("todo .* /priority -?\\d+")) {
+        } else if (command.matches("todo .*")) {
             return parseTodoCommand(command);
-        } else if (command.matches("deadline .* /by .* /priority -?\\d+")) {
+        } else if (command.matches("deadline .* /by .*")) {
             return parseDeadlineCommand(command);
-        } else if (command.matches("event .* /from.*/to.* /priority -?\\d+")) {
+        } else if (command.matches("event .* /from.*/to.*")) {
             return parseEventCommand(command);
         } else if (command.matches("delete -?\\d+")) {
             return parseDeleteCommand(command);
@@ -113,8 +113,10 @@ public class Parser {
      * @return the todo command object
      */
     private static Command parseTodoCommand(String command) {
-        int priority = Integer.parseInt(command.split(" /priority ")[1]);
-        return new TodoCommand(command.split(" ", 3)[1], priority);
+        String[] parts = command.split(" /priority ");
+        String description = parts[0].split(" ", 2)[1];
+        int priority = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
+        return new TodoCommand(description, priority);
     }
 
     /**
@@ -124,9 +126,11 @@ public class Parser {
      */
     private static Command parseDeadlineCommand(String command) {
         String[] parts = command.split("/by");
-        int priority = Integer.parseInt(parts[1].trim().split(" /priority ")[1]);
-        String deadline = parts[1].trim().split(" /priority ")[0];
-        return new DeadlineCommand(parts[0].split(" ", 2)[1].trim(), deadline, priority);
+        String description = parts[0].split(" ", 2)[1].trim();
+        String[] deadlineParts = parts[1].trim().split(" /priority ");
+        String deadline = deadlineParts[0];
+        int priority = deadlineParts.length > 1 ? Integer.parseInt(deadlineParts[1]) : 0;
+        return new DeadlineCommand(description, deadline, priority);
     }
 
     /**
@@ -137,9 +141,9 @@ public class Parser {
     private static Command parseEventCommand(String command) {
         String name = command.split("/from")[0].split(" ", 2)[1].trim();
         String from = command.split("/from")[1].split("/to")[0].trim();
-        String to = command.split("/to")[1].trim();
-        int priority = Integer.parseInt(to.split(" /priority ")[1]);
-        to = to.split(" /priority ")[0];
+        String[] toParts = command.split("/to")[1].trim().split(" /priority ");
+        String to = toParts[0];
+        int priority = toParts.length > 1 ? Integer.parseInt(toParts[1]) : 0;
         return new EventCommand(name, from, to, priority);
     }
 
@@ -169,10 +173,14 @@ public class Parser {
      * @return the find priority command object
      */
     private static Command parseFindPriorityCommand(String command) {
-        //System.out.println("asdfasdfasdfasdfsd");
         return new FindPriority(Integer.parseInt(command.trim().split(" ")[2]));
     }
 
+    /**
+     * Parses a set priority command.
+     * @param command the string to parse
+     * @return the set priority command object
+     */
     private static Command parseSetPriorityCommand(String command) {
         int index = Integer.parseInt(command.split(" ")[1]);
         int priority = Integer.parseInt(command.split(" ")[2]);
